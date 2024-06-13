@@ -1,19 +1,22 @@
+# shop/views.py
+
 from django.shortcuts import render
+from django.db.models import Q
 from .models import Shop
 
 def index(request):
     shops = Shop.objects.filter(
-        category__icontains='Fluorescence',
-        category__icontains='Carat',
-        category__icontains='Color Grade',
-        category__icontains='Cutting Style',
-        name__icontains='FLUORESCENCE',
-        category__icontains='Round Brilliant',
-        subcategory__icontains='CUT PROPORTION',
-        subcategory__icontains='CUT GRADE',
-        subcategory__icontains='POLISH',
-        subcategory__icontains='SYMMETRY',
-        subcategory__icontains='THIN-MEDIUM',
-        subcategory__icontains='MEDIUM WHITISH BLUE',
+        Q(category__icontains='Fluorescence') |
+        Q(category__icontains='Carat') |
+        Q(category__icontains='Color Grade') |
+        Q(category__icontains='Cutting Style') |
+        Q(name__icontains='FLUORESCENCE') |
+        Q(category__icontains='Round Brilliant') |
+        Q(subcategory__icontains='CUT PROPORTION') |
+        Q(subcategory__icontains='CUT GRADE') |
+        Q(subcategory__icontains='POLISH') |
+        Q(subcategory__icontains='SYMMETRY') |
+        Q(subcategory__icontains='THIN-MEDIUM') |
+        Q(subcategory__icontains='MEDIUM WHITISH BLUE')
     ).filter(price__gte=0, price__lte=4.41)
     return render(request, 'shop/index.html', {'shops': shops})
